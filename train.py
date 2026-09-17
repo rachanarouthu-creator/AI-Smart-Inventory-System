@@ -1,52 +1,57 @@
 import cv2
 import os
-import pandas as pd
-from sklearn.neighbors import KNeighborsClassifier
 import pickle
+import numpy as np
+from sklearn.neighbors import KNeighborsClassifier
 
-# Read inventory data
-df = pd.read_csv("products.csv")
-
-print("Inventory Data:")
-print(df)
-
-dataset = "dataset"
+# Path to dataset
+dataset_path = "dataset"
 
 X = []
 y = []
 
-# Read every product folder
-for product_name in os.listdir(dataset):
+# Read images from each product folder
+for product in os.listdir(dataset_path):
 
-    product_folder = os.path.join(dataset, product_name)
+    product_path = os.path.join(dataset_path, product)
 
-    if not os.path.isdir(product_folder):
+    if not os.path.isdir(product_path):
         continue
 
-    # Read images
-    for image_name in os.listdir(product_folder):
+    for image_name in os.listdir(product_path):
 
-        image_path = os.path.join(product_folder, image_name)
+        image_path = os.path.join(product_path, image_name)
 
-        img = cv2.imread(image_path)
+        image = cv2.imread(image_path)
 
-        if img is not None:
+        if image is None:
+            continue
 
-            img = cv2.resize(img, (100, 100))
-            img = img.flatten()
+        # Resize image
+        image = cv2.resize(image, (100, 100))
 
-            X.append(img)
-            y.append(product_name)
+        # Convert image into one-dimensional array
+        image = image.flatten()
 
-            print(image_name, "->", product_name)
+        X.append(image)
+        y.append(product)
+
+# Convert to NumPy arrays
+X = np.array(X)
+y = np.array(y)
+
+print("Number of images:", len(X))
+print("Products:", np.unique(y))
+
+# Create KNN model
+model = KNeighborsClassifier(n_neighbors=3)
 
 # Train model
-model = KNeighborsClassifier(n_neighbors=1)
 model.fit(X, y)
 
 # Save model
 with open("model.pkl", "wb") as file:
     pickle.dump(model, file)
 
-print("\nModel trained successfully!")
-print("Total training images:", len(X))
+print("Model trained successfully!")
+print("Model saved as model.pkl")

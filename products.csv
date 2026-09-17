@@ -1,6 +1,8 @@
-Product,Category,ExpiryDate,Quantity
-Horlicks,Health Drink,2026-07-02,5
-Harpic,Cleaning,2026-04-30,3
-Kissan,Food,2026-11-30,8
-Soya Sauce,Food,2027-01-31,4
-Medicine,Medicine,2028-02-29,2
+Product,Category,ExpiryDate,Quantity,Days Left,Status
+Horlicks,Health Drink,2026-10-15,10,28,EXPIRING SOON
+Harpic,Cleaning,2026-09-30,3,13,EXPIRING SOON
+Kissan,Food,2026-11-30,8,74,SAFE
+Soya Sauce,Food,2027-01-31,4,136,SAFE
+Coriander Powder,Food,2026-12-20,6,94,SAFE
+Oil,Food,2027-02-28,2,164,SAFE
+milk,dairy,2026-09-17,1,0,EXPIRING SOON
